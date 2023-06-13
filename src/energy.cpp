@@ -179,9 +179,10 @@ void energy_core(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
          or use(Potent::GEOM);
       if (calc_val and tscfg("evalence", ecore_val))
          evalence(vers);
+      ennvalence(vers);
    } else {
       // bonded terms
-
+      ennvalence(vers);
       if (use(Potent::BOND))
          if (tscfg("ebond", ecore_val))
             ebond(vers);
@@ -420,6 +421,7 @@ void energyData(RcOp op)
 
    // bonded terms
 
+   RcMan ennvalence42{ennvalenceData, op};
    RcMan ebond42{ebondData, op};
    RcMan eangle42{eangleData, op};
    RcMan estrbnd42{estrbndData, op};

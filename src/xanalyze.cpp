@@ -50,6 +50,8 @@ static void xAnalyzeE()
 
    const char* fmt = " %-29s %18.4f %16d\n";
 
+   print(out, fmt, "NN Valence", energy_ennval, 1);
+
    if (use(Potent::BOND))
       print(out, fmt, "Bond Stretching", energy_eb, countBondedTerm(Potent::BOND));
 

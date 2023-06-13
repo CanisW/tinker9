@@ -19,6 +19,7 @@ enum class Potent
    STRTOR,  ///< Stretch-torsion term.
    ANGTOR,  ///< Angle-torsion term.
    TORTOR,  ///< Torsion-torsion term.
+   // NNVAL,   ///< Neural network valence term.
 
    VDW,    ///< Van der Waals potential.
    REPULS, ///< Pauli repulsion term.

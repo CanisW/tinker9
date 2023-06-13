@@ -21,7 +21,11 @@ cudart/thrustcache.cpp
    )
 endif ()
 add_library (tinker9_cpp STATIC "${__T9_CPP_SRC}")
-target_link_libraries (tinker9_cpp PRIVATE __t9_intf PRIVATE tinkerFToCpp)
+# add python
+## add python interface
+find_package (Python3 COMPONENTS Interpreter Development)
+include_directories(${Python3_INCLUDE_DIRS})
+target_link_libraries (tinker9_cpp PRIVATE __t9_intf PRIVATE tinkerFToCpp ${Python3_LIBRARIES})
 set_target_properties (tinker9_cpp PROPERTIES CXX_STANDARD ${T9_CPPSTD})
 
 add_library (tinker9_version OBJECT
