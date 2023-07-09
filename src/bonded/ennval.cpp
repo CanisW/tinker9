@@ -92,13 +92,21 @@ void ennvalence(int vers)
    auto do_v = vers & calc::virial;
    auto do_g = vers & calc::grad;
 
-   if (rc_a) {
+   // if (rc_a) {
       zeroOnHost(energy_ennval, vir_ennval);
-   }
+   // }
 
    // std::cout << "num of atoms: " << n << std::endl;
    // std::cout << "atomic: " << sizeof(tinker::atomid::atomic) << ", " << tinker::atomid::atomic[0] << ", " << tinker::atomid::atomic[100] << std::endl;
    // std::cout << "tinker::atoms::x: " << sizeof(tinker::atoms::x) << ", " << tinker::atoms::x[0] << ", " << tinker::atoms::x[100] << std::endl;
+
+   real *x_cpu, *y_cpu, *z_cpu;
+   x_cpu = new real[n];
+   y_cpu = new real[n];
+   z_cpu = new real[n];
+   cudaMemcpy(x_cpu, x, n*sizeof(real), cudaMemcpyDeviceToHost);
+   cudaMemcpy(y_cpu, y, n*sizeof(real), cudaMemcpyDeviceToHost);
+   cudaMemcpy(z_cpu, z, n*sizeof(real), cudaMemcpyDeviceToHost);
 
    PyObject *py_args, *py_values, *py_vi;
 
@@ -117,9 +125,9 @@ void ennvalence(int vers)
          py_values = PyList_New(n);
          for (int i = 0; i < n; ++i) {
             py_vi = PyList_New(3);
-            PyList_SetItem(py_vi, 0, PyFloat_FromDouble(atoms::x[i]));
-            PyList_SetItem(py_vi, 1, PyFloat_FromDouble(atoms::y[i]));
-            PyList_SetItem(py_vi, 2, PyFloat_FromDouble(atoms::z[i]));
+            PyList_SetItem(py_vi, 0, PyFloat_FromDouble(x_cpu[i]));
+            PyList_SetItem(py_vi, 1, PyFloat_FromDouble(y_cpu[i]));
+            PyList_SetItem(py_vi, 2, PyFloat_FromDouble(z_cpu[i]));
             PyList_SetItem(py_values, i, py_vi);
          }
          PyTuple_SetItem(py_args, 1, py_values);
@@ -151,12 +159,29 @@ void ennvalence(int vers)
          }
          else {
             PyErr_Print();
-            fprintf(stderr,"AMOEBA+NN energy function call failed\n");
+            // PyObject *ptype, *pvalue, *ptraceback;
+            // PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+            //pvalue contains error message
+            //ptraceback contains stack snapshot and many other information
+            //(see python traceback structure)
+
+            // //Get error message
+            // const char *pStrErrorMessage = PyUnicode_AsUTF8(pvalue);
+            // std::cout << "value: " << pStrErrorMessage << std::endl;
+            // const char *pStrErrorMessage2 = PyUnicode_AsUTF8(ptype);
+            // std::cout << "type: " << pStrErrorMessage2 << std::endl;
+            // const char *pStrErrorMessage3 = PyUnicode_AsUTF8(ptraceback);
+            // std::cout << "traceback: " << pStrErrorMessage3 << std::endl;
+            fprintf(stderr, "AMOEBA+NN energy function call failed\n");
+            exit (1);
          }
       }
    }
+   delete[] x_cpu;
+   delete[] y_cpu;
+   delete[] z_cpu;
 
-   if (rc_a) {
+   // if (rc_a) {
       if (do_e) {
          // energy_ennval = energyReduce(ennval);
          energy_valence += energy_ennval;
@@ -168,6 +193,6 @@ void ennvalence(int vers)
       }
       if (do_g)
          sumGradient(gx, gy, gz, dennval_x, dennval_y, dennval_z);
-   }
+   // }
 }
 }

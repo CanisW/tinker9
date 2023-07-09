@@ -38,6 +38,7 @@ static double minimiz1(double* xx, double* g)
    energy(calc::energy + calc::grad);
    energy_prec eout;
    copyEnergy(calc::energy, &eout);
+   // std::cout << "E = " << eout << ", " << esum  << ", " << energy_valence << std::endl;
    copyGradient(calc::grad, grx.data(), gry.data(), grz.data());
 
    // convert coordinates and gradient to optimization parameters

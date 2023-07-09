@@ -72,6 +72,7 @@ static bool fts(std::string eng, bool& use_flag, unsigned tsflag, const TimeScal
 #include "ff/potent.h"
 #include <tinker/detail/mplpot.hh>
 #include <tinker/detail/polpot.hh>
+// #include "iostream"
 
 namespace tinker {
 static bool ecore_val;
@@ -301,6 +302,7 @@ void energy(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
 {
    zeroEGV(vers);
    energy_core(vers, tsflag, tsconfig);
+   // std::cout << "esum1: " << esum << std::endl;
 
    auto rc_a = rc_flag & calc::analyz;
    auto do_e = vers & calc::energy;
@@ -311,6 +313,8 @@ void energy(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
    ev_hobj.e_val = 0;
    ev_hobj.e_vdw = 0;
    ev_hobj.e_ele = 0;
+   // std::cout << "energy_valence1: " << energy_valence << std::endl;
+   // std::cout << "rc_a: " << rc_a << std::endl;
    if (do_e) {
       if (!rc_a) {
          size_t bufsize = bufferSize();
@@ -328,7 +332,8 @@ void energy(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
          }
       }
    }
-
+   // std::cout << "ev_hobj.e_val2: " << ev_hobj.e_val << std::endl;
+   // std::cout << "energy_valence2: " << energy_valence << std::endl;
    zeroOnHost(ev_hobj.v_val);
    zeroOnHost(ev_hobj.v_vdw);
    zeroOnHost(ev_hobj.v_ele);
@@ -350,9 +355,12 @@ void energy(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
       }
    }
    if (must_wait) {
+      // std::cout << "must_wait" << std::endl;
       deviceMemoryCopyoutBytesAsync(&ev_hobj, ev_dptr, sizeof(DHRc), g::q0);
       waitFor(g::q0);
    }
+   // std::cout << "ev_hobj.e_val3: " << ev_hobj.e_val << std::endl;
+   // std::cout << "energy_valence3: " << energy_valence << std::endl;
    if (do_e) {
       if (!rc_a) {
          if (ecore_val) {
@@ -367,6 +375,8 @@ void energy(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
       }
       esum = energy_valence + energy_vdw + energy_elec;
    }
+   // std::cout << "ev_hobj.e_val4: " << ev_hobj.e_val << std::endl;
+   // std::cout << "energy_valence4: " << energy_valence << std::endl;
    if (do_v) {
       if (!rc_a) {
          if (ecore_val) {
@@ -403,6 +413,7 @@ void energy(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
       if (ecore_ele and gx_elec)
          sumGradient(gx, gy, gz, gx_elec, gy_elec, gz_elec);
    }
+   // std::cout << "esum5: " << esum << std::endl;
 }
 
 void energy(int vers)
