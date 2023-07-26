@@ -23,7 +23,13 @@ endif ()
 add_library (tinker9_cpp STATIC "${__T9_CPP_SRC}")
 # add python
 ## add python interface
+# set (Python_ROOT_DIR "/work/yw24267/miniconda3/envs/cuda11/")
+# set (Python_FIND_VIRTUALENV STANDARD)
 find_package (Python3 COMPONENTS Interpreter Development)
+# message(${Python3_LIBRARIES})
+# message(${Python3_INCLUDE_DIRS})
+# set(Python3_INCLUDE_DIRS "/home/yw24267/work/miniconda3/envs/cuda11/include/python3.8")
+# set(Python3_LIBRARIES "/home/yw24267/work/miniconda3/envs/cuda11/lib/libpython3.8.so")
 include_directories(${Python3_INCLUDE_DIRS})
 target_link_libraries (tinker9_cpp PRIVATE __t9_intf PRIVATE tinkerFToCpp ${Python3_LIBRARIES})
 set_target_properties (tinker9_cpp PROPERTIES CXX_STANDARD ${T9_CPPSTD})

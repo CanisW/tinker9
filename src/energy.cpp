@@ -180,10 +180,12 @@ void energy_core(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
          or use(Potent::GEOM);
       if (calc_val and tscfg("evalence", ecore_val))
          evalence(vers);
-      ennvalence(vers);
+      if (tscfg("evalence", ecore_val))
+         ennvalence(vers);
    } else {
       // bonded terms
-      ennvalence(vers);
+      if (tscfg("evalence", ecore_val))
+         ennvalence(vers);
       if (use(Potent::BOND))
          if (tscfg("ebond", ecore_val))
             ebond(vers);

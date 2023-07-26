@@ -28,25 +28,25 @@ void ennvalenceData(RcOp op)
 
    if (op & RcOp::DEALLOC) {
 
-      if (rc_a)
+      // if (rc_a)
          bufferDeallocate(rc_flag, ennval, vir_ennval, dennval_x, dennval_y, dennval_z);
-      ennval = nullptr;
-      vir_ennval = nullptr;
-      dennval_x = nullptr;
-      dennval_y = nullptr;
-      dennval_z = nullptr;
+      // ennval = nullptr;
+      // vir_ennval = nullptr;
+      // dennval_x = nullptr;
+      // dennval_y = nullptr;
+      // dennval_z = nullptr;
       Py_XDECREF(py_nn_analyze);
       Py_DECREF(py_amoeba_nn);
    }
 
    if (op & RcOp::ALLOC) {
 
-      ennval = eng_buf;
-      vir_ennval = vir_buf;
-      dennval_x = gx;
-      dennval_y = gy;
-      dennval_z = gz;
-      if (rc_a)
+      // ennval = eng_buf;
+      // vir_ennval = vir_buf;
+      // dennval_x = gx;
+      // dennval_y = gy;
+      // dennval_z = gz;
+      // if (rc_a)
          bufferAllocate(rc_flag, &ennval, &vir_ennval, &dennval_x, &dennval_y, &dennval_z);
       // wchar_t *path, *newpath;
       // path=Py_GetPath();
@@ -93,6 +93,7 @@ void ennvalence(int vers)
    auto do_g = vers & calc::grad;
 
    // if (rc_a) {
+      // why only do this when rc_a?
       zeroOnHost(energy_ennval, vir_ennval);
    // }
 
@@ -104,6 +105,7 @@ void ennvalence(int vers)
    x_cpu = new real[n];
    y_cpu = new real[n];
    z_cpu = new real[n];
+   cudaDeviceSynchronize();
    cudaMemcpy(x_cpu, x, n*sizeof(real), cudaMemcpyDeviceToHost);
    cudaMemcpy(y_cpu, y, n*sizeof(real), cudaMemcpyDeviceToHost);
    cudaMemcpy(z_cpu, z, n*sizeof(real), cudaMemcpyDeviceToHost);
@@ -132,6 +134,7 @@ void ennvalence(int vers)
          }
          PyTuple_SetItem(py_args, 1, py_values);
          // std::cout << "py_args[1] set "<< std::endl;
+         // std::cout << "Ref count4: " << Py_REFCNT(py_values) << std::endl;         
 
          py_values = PyObject_CallObject(py_nn_analyze, py_args);
          // std::cout << "py_nn_analyze called "<< std::endl;
@@ -156,6 +159,10 @@ void ennvalence(int vers)
             cudaMemcpy(dennval_z, dz_cpu, n*sizeof(grad_prec), cudaMemcpyHostToDevice);
             // std::cout << "Result of call: Gradient: " << dx_cpu[0] << ", " << dy_cpu[0] << ", " << dz_cpu[0] << std::endl;
             // std::cout << "Result of call: Gradient: " << dx_cpu[10] << ", " << dy_cpu[10] << ", " << dz_cpu[10] << std::endl;
+            delete[] dx_cpu;
+            delete[] dy_cpu;
+            delete[] dz_cpu;
+            Py_DECREF(py_values);
          }
          else {
             PyErr_Print();
