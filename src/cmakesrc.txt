@@ -13,7 +13,6 @@ bonded/ebond.cpp
 bonded/egeom.cpp
 bonded/eimprop.cpp
 bonded/eimptor.cpp
-bonded/ennval.cpp
 bonded/eopbend.cpp
 bonded/epitors.cpp
 bonded/estrbnd.cpp
@@ -30,6 +29,7 @@ egvop.cpp
 elec.cpp
 energy.cpp
 energybuffer.cpp
+enn.cpp
 errlinux.cpp
 errprint.cpp
 evalence.cpp

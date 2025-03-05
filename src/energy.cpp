@@ -61,6 +61,7 @@ static bool fts(std::string eng, bool& use_flag, unsigned tsflag, const TimeScal
 #include "ff/echarge.h"
 #include "ff/echglj.h"
 #include "ff/evalence.h"
+#include "ff/enn.h"
 #include "ff/evdw.h"
 #include "ff/hippo/echgtrn.h"
 #include "ff/hippo/edisp.h"
@@ -181,7 +182,7 @@ void energy_core(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
       if (calc_val and tscfg("evalence", ecore_val))
          evalence(vers);
       if (tscfg("evalence", ecore_val))
-         ennvalence(vers);
+         enn(vers, true);
    } else {
       // bonded terms
       if (tscfg("evalence", ecore_val))
@@ -231,6 +232,8 @@ void energy_core(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
    }
 
    // non-bonded terms
+   if (tscfg("evdw", ecore_vdw))
+      enn(vers, false);
 
    if (amoeba_evdw(vers))
       if (tscfg("evdw", ecore_vdw))
@@ -375,7 +378,7 @@ void energy(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
             energy_elec += toFloatingPoint<energy_prec>(ev_hobj.e_ele);
          }
       }
-      esum = energy_valence + energy_vdw + energy_elec;
+      esum = energy_valence + energy_vdw + energy_elec + energy_enn;
    }
    // std::cout << "ev_hobj.e_val4: " << ev_hobj.e_val << std::endl;
    // std::cout << "energy_valence4: " << energy_valence << std::endl;
@@ -434,7 +437,7 @@ void energyData(RcOp op)
 
    // bonded terms
 
-   RcMan ennvalence42{ennvalenceData, op};
+   RcMan enn42{ennData, op};
    RcMan ebond42{ebondData, op};
    RcMan eangle42{eangleData, op};
    RcMan estrbnd42{estrbndData, op};

@@ -30,19 +30,6 @@ namespace tinker {
 /// Computes the total valence potential energy.
 void evalence(int vers);
 
-/// Computes the nn valence potential energy.
-void ennvalenceData(RcOp);
-void ennvalence(int vers);
-
-TINKER_EXTERN EnergyBuffer ennval;
-TINKER_EXTERN VirialBuffer vir_ennval;
-TINKER_EXTERN grad_prec* dennval_x;
-TINKER_EXTERN grad_prec* dennval_y;
-TINKER_EXTERN grad_prec* dennval_z;
-TINKER_EXTERN energy_prec energy_ennval;
-TINKER_EXTERN virial_prec virial_ennval[9];
-
-
 /// \addtogroup bond
 /// \{
 
