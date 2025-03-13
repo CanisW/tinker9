@@ -29,7 +29,7 @@ void ennData(RcOp op)
    if (op & RcOp::DEALLOC) {
 
       // if (rc_a)
-         bufferDeallocate(rc_flag, enn, vir_enn, denn_x, denn_y, denn_z);
+         bufferDeallocate(rc_flag, enn_buf, vir_enn, denn_x, denn_y, denn_z);
       // enn = nullptr;
       // vir_enn = nullptr;
       // denn_x = nullptr;
@@ -47,7 +47,7 @@ void ennData(RcOp op)
       // denn_y = gy;
       // denn_z = gz;
       // if (rc_a)
-         bufferAllocate(rc_flag, &enn, &vir_enn, &denn_x, &denn_y, &denn_z);
+         bufferAllocate(rc_flag, &enn_buf, &vir_enn, &denn_x, &denn_y, &denn_z);
       // wchar_t *path, *newpath;
       // path=Py_GetPath();
       // newpath=new wchar_t[wcslen(path)+50];

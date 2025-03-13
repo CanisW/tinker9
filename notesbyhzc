@@ -1,0 +1,9 @@
+Main points:
+	1. Compilation: 
+		a. Run `/opt/nvidia/hpc_sdk/Linux_x86_64/22.11/compilers/bin/makelocalrc -x` in your home dir.
+		b. Added a soft link in ./ext/ to amoeba_nn code (to make it a submodule later?)
+		c. Activate conda env that has pytorch-cuda=11.8
+		d. Config the same version of cuda for tinker9, i.e., 11.8
+		e. Compile tinker9 of double precision, if nvc
+	2. Execution:
+		a. Activate the conda env

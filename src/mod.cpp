@@ -10,6 +10,7 @@
 #include "ff/energybuffer.h"
 #include "ff/evalence.h"
 #include "ff/evdw.h"
+#include "ff/enn.h"
 #include "ff/hippo/edisp.h"
 #include "ff/hippo/erepel.h"
 #include "ff/modhippo.h"
