@@ -186,7 +186,7 @@ void energy_core(int vers, unsigned tsflag, const TimeScaleConfig& tsconfig)
    } else {
       // bonded terms
       if (tscfg("evalence", ecore_val))
-         ennvalence(vers);
+         enn(vers, true);
       if (use(Potent::BOND))
          if (tscfg("ebond", ecore_val))
             ebond(vers);

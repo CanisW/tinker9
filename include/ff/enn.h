@@ -9,7 +9,7 @@ namespace tinker {
 void ennData(RcOp);
 void enn(int vers, bool is_bonded);
 
-TINKER_EXTERN EnergyBuffer enn;
+TINKER_EXTERN EnergyBuffer enn_buf;
 TINKER_EXTERN VirialBuffer vir_enn;
 TINKER_EXTERN grad_prec* denn_x;
 TINKER_EXTERN grad_prec* denn_y;
